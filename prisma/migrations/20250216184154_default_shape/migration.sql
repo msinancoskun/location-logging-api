@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Area" ALTER COLUMN "shape" SET DEFAULT 'CIRCLE';

@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Shape {
+  CIRCLE
+  SQUARE
+  RECTANGLE
+  TRIANGLE
+}
+
+model Area {
+  id                  String   @id @default(cuid())
+  latitude            Float
+  longitude           Float
+  radiusInKilometers  Float
+  shape               Shape    @default(CIRCLE)
+
+  // dates
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // relations
+  logs                Log[]
+}
+
+model Location {
+  id        String   @id @default(cuid())
+  latitude  Float
+  longitude Float
+
+  // dates
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  userId      String
+  user        User @relation(fields: [userId], references: [id])
+
+  logs Log[]
+}
+
+model Log {
+  id          String   @id @default(cuid())
+
+  // dates
+  createdAt   DateTime @default(now()) // time of entry
+  updatedAt   DateTime @updatedAt
+
+  // relations
+  userId      String
+  user        User @relation(fields: [userId], references: [id])
+
+  areaId      String
+  area        Area @relation(fields: [areaId], references: [id])
+
+  locationId String
+  location    Location @relation(fields: [locationId], references: [id])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+
+  // dates
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  logs      Log[]
+  locations Location[]
+}
