@@ -2,7 +2,9 @@
 
 This is a location logging API application. To use it properly check for swagger docs from http://localhost:3000/api-docs with examples.
 
-Also check, .env.example for cookie usage, database, and port setup.
+Check .env.example for cookie, and redis usage, database, and port setup.
+I've used a docker container for redis.
+
 
 ## Project setup
 
